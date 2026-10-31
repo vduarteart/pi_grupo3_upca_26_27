@@ -43,8 +43,9 @@ public class Choose_In_Out : MonoBehaviour
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out hit) && hit.transform.tag == "Output")
                 {
+                    Vector3 TempPos = realPos;
                     OutputLocation = hit.transform.gameObject;
-                    lineRenderer.SetPosition(0, OutputLocation.transform.position);
+                    lineRenderer.SetPosition(0, TempPos);
                     OutputLocation.SetActive(true);
                     print("Output found");
                     cable = true;
