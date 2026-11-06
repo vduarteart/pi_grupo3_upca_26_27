@@ -98,4 +98,10 @@ public class StoreCameraController: MonoBehaviour
 
         transform.position = movementPosition + bobOffset * bobWeight;
     }
+    
+    public void SynchronizePosition()
+    {
+        movementPosition = transform.position;
+        initialPosition = transform.position;
+    }
 }

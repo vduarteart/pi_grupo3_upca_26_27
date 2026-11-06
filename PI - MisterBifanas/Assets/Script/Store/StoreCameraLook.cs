@@ -19,6 +19,8 @@ public class StoreCameraLook: MonoBehaviour
     [SerializeField] private CinemachineCamera storeCamera;
     
     [SerializeField] private CinemachineCamera tvCamera;
+    
+    [SerializeField] private PresentationController presentationController;
 
     private float currentYaw;
     private float currentPitch;
@@ -37,9 +39,13 @@ public class StoreCameraLook: MonoBehaviour
     
     private bool isTransitioning = false;
     
+    private bool isInsideTV = false;
+    
     public bool IsTransitioning => isTransitioning;
     
     private Quaternion transitionStartRotation;
+    
+    private Vector3 storePosition;
     
     private Quaternion transitionTargetRotation;
     
@@ -52,9 +58,15 @@ public class StoreCameraLook: MonoBehaviour
     [SerializeField] private float highlightTransitionSpeed = 5f;
     
     [SerializeField] private Transform tvScreenTarget;
+    
 
     private void Update()
     {
+        if (isInsideTV && !isTransitioning && Keyboard.current.tabKey.wasPressedThisFrame)
+        {
+            StartExitTV();
+        }
+        
         Cursor.visible = false;
         
         UpdateCursorPosition();
@@ -187,20 +199,30 @@ public class StoreCameraLook: MonoBehaviour
         }
     }
     
+    private void StartExitTV()
+    {
+        if (isTransitioning || !isInsideTV)
+            return;
+
+        StartCoroutine(TransitionFromTV());
+    }
+    
     private IEnumerator TransitionToTV()
     {
         isTransitioning = true;
 
         Transform cameraPoint = transform.parent;
+        
+        storePosition = cameraPoint.position;
 
         transitionStartRotation = cameraPoint.rotation;
         
+        Vector3 transitionStartPosition = cameraPoint.position;
+        Vector3 transitionTargetPosition = tvCamera.transform.position;
         currentYaw = targetYaw;
         currentPitch = targetPitch;
 
-        transitionTargetRotation =
-            tvCamera.transform.rotation *
-            Quaternion.Inverse(transform.localRotation);
+        transitionTargetRotation = tvCamera.transform.rotation * Quaternion.Inverse(transform.localRotation);
 
         float duration = 2.2f;
         float elapsed = 0f;
@@ -210,10 +232,17 @@ public class StoreCameraLook: MonoBehaviour
             elapsed += Time.deltaTime;
 
             float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
-
+            
+            
             cameraPoint.rotation = Quaternion.Slerp(
                 transitionStartRotation,
                 transitionTargetRotation,
+                t
+            );
+            
+            cameraPoint.position = Vector3.Lerp(
+                transitionStartPosition,
+                transitionTargetPosition,
                 t
             );
 
@@ -221,12 +250,73 @@ public class StoreCameraLook: MonoBehaviour
         }
 
         cameraPoint.rotation = transitionTargetRotation;
-
+        
+        cameraPoint.position = transitionTargetPosition;
+        
         storeCamera.Priority = 5;
         tvCamera.Priority = 10;
 
-        yield return new WaitForSeconds(2.2f);
+        presentationController.EnterTV();
 
+        yield return new WaitForSeconds(0.7f);
+
+        presentationController.ShowTVWorld();
+
+        yield return new WaitForSeconds(1.5f);
+        
+        isInsideTV = true;
+
+        isTransitioning = false;
+    }
+    
+    private IEnumerator TransitionFromTV()
+    {
+        isTransitioning = true;
+
+        presentationController.HideTVWorld();
+
+        yield return new WaitForSeconds(0.8f);
+        
+        presentationController.ExitTV();
+        
+        yield return new WaitForSeconds(0.1f);
+        
+        Transform cameraPoint = transform.parent;
+
+        Vector3 transitionStartPosition = cameraPoint.position;
+        Quaternion exitStartRotation = cameraPoint.rotation;
+
+        float duration = 2.2f;
+        float elapsed = 0f;
+        
+        storeCamera.Priority = 10;
+        tvCamera.Priority = 5;
+        
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+
+            cameraPoint.position = Vector3.Lerp(
+                transitionStartPosition,
+                storePosition,
+                t
+            );
+
+            cameraPoint.rotation = Quaternion.Slerp(
+                exitStartRotation,
+                transitionStartRotation,
+                t
+            );
+
+            yield return null;
+        }
+        
+        cameraPoint.position = storePosition;
+        cameraPoint.rotation = transitionStartRotation;
+
+        isInsideTV = false;
         isTransitioning = false;
     }
     
