@@ -14,14 +14,6 @@ public class Line_Renderer : MonoBehaviour
     void Start()
     {
         LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
-
-        lineRenderer.startColor = Color.red;
-        lineRenderer.endColor = Color.green;
-
-        lineRenderer.startWidth = 0.2f;
-        lineRenderer.endWidth = 0.2f;
-
-        lineRenderer.positionCount = 2;
     }
 
     private void Update()
