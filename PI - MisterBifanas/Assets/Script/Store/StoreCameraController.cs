@@ -18,6 +18,8 @@ public class StoreCameraController: MonoBehaviour
     [SerializeField] private float bobFadeSpeed = 3f;
     
     [SerializeField] private StoreCameraLook cameraLook;
+    
+    [SerializeField] private StoreFootsteps storeFootsteps;
 
     private Vector3 initialPosition;
     private Vector3 movementPosition;
@@ -60,6 +62,9 @@ public class StoreCameraController: MonoBehaviour
         }
 
         movementInput = Vector2.ClampMagnitude(movementInput, 1f);
+        
+        if (storeFootsteps != null)
+            storeFootsteps.UpdateFootsteps(movementInput.magnitude > 0f);
 
         Vector3 movement = new Vector3(movementInput.x,0f,movementInput.y);
 

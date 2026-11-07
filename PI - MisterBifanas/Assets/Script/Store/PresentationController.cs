@@ -1,20 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PresentationController: MonoBehaviour
 {
     [Header("Screen")]
     [SerializeField] private AspectRatioFitter screenFrame;
-    
     [SerializeField] private CanvasGroup tvWorldCanvasGroup;
+    [SerializeField] private RenderTexture tvRenderTexture;
+    [SerializeField] private StoreCameraLook storeCameraLook;
 
     [Header("Side Bars")]
     [SerializeField] private RectTransform leftBar;
     [SerializeField] private RectTransform rightBar;
     [SerializeField] private RectTransform topBar;
     [SerializeField] private RectTransform bottomBar;
-    
+
     [Header("Aspect Ratios")]
     [SerializeField] private float storeAspectRatio = 1f;
     [SerializeField] private float tvAspectRatio = 1.63664f;
@@ -23,12 +25,92 @@ public class PresentationController: MonoBehaviour
     [SerializeField] private float transitionDuration = 1.2f;
 
     private Coroutine transitionCoroutine;
-    
     private Coroutine fadeCoroutine;
-    
+
+    private bool isTVSceneLoaded = false;
+    private bool isLoadingTVScene = false;
+
     private void Start()
     {
+        Debug.Log("Resolução do ecrã: " + Screen.width + " x " + Screen.height);
+
+        tvWorldCanvasGroup.alpha = 0f;
+
         SetPresentation(0f);
+
+        tvRenderTexture.Create();
+
+        Camera[] allCameras = Resources.FindObjectsOfTypeAll<Camera>();
+
+        foreach (Camera cam in allCameras)
+        {
+            if (cam.gameObject.scene.name == "TV_01")
+            {
+                Debug.Log("Câmara encontrada na TV_01: " + cam.name);
+                Debug.Log("Ativa: " + cam.isActiveAndEnabled);
+                Debug.Log("Target Texture: " + (cam.targetTexture != null ? cam.targetTexture.name : "NULL"));
+            }
+        }
+
+        Debug.Log("Cenas carregadas: " + SceneManager.sceneCount);
+
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Debug.Log("Cena " + i + ": " + SceneManager.GetSceneAt(i).name);
+        }
+
+        Debug.Log("Cena ativa: " + SceneManager.GetActiveScene().name);
+    }
+
+    public IEnumerator LoadTVScene()
+    {
+        if (isLoadingTVScene)
+            yield break;
+
+        Scene tvScene = SceneManager.GetSceneByName("TV_01");
+
+        if (!tvScene.isLoaded)
+        {
+            isLoadingTVScene = true;
+
+            AsyncOperation operation = SceneManager.LoadSceneAsync(
+                "TV_01",
+                LoadSceneMode.Additive
+            );
+
+            while (!operation.isDone)
+            {
+                yield return null;
+            }
+
+            isLoadingTVScene = false;
+        }
+
+        isTVSceneLoaded = true;
+
+        yield return null;
+
+        if (tvRenderTexture != null && !tvRenderTexture.IsCreated())
+        {
+            tvRenderTexture.Create();
+        }
+    }
+
+    public IEnumerator UnloadTVScene()
+    {
+        Scene tvScene = SceneManager.GetSceneByName("TV_01");
+
+        if (tvScene.isLoaded)
+        {
+            AsyncOperation operation = SceneManager.UnloadSceneAsync("TV_01");
+
+            while (operation != null && !operation.isDone)
+            {
+                yield return null;
+            }
+        }
+
+        isTVSceneLoaded = false;
     }
 
     public void EnterTV()
@@ -107,7 +189,7 @@ public class PresentationController: MonoBehaviour
             (progress - 0.5f) / 0.5f
         );
 
-        float viewportAspect = 4f / 3f;
+        float viewportAspect = (float)Screen.width / Screen.height;
 
         float barFraction = (
             1f - (viewportAspect / tvAspectRatio)
@@ -123,28 +205,27 @@ public class PresentationController: MonoBehaviour
             1f, barFraction * horizontalProgress
         );
     }
-    
-    public void ShowTVWorld()
+
+    public void ShowTVWorld(float duration)
     {
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
 
-        fadeCoroutine = StartCoroutine(FadeTVWorld(1f));
+        fadeCoroutine = StartCoroutine(FadeTVWorld(1f, duration));
     }
 
-    public void HideTVWorld()
+    public void HideTVWorld(float duration = 0.8f)
     {
         if (fadeCoroutine != null)
             StopCoroutine(fadeCoroutine);
 
-        fadeCoroutine = StartCoroutine(FadeTVWorld(0f));
+        fadeCoroutine = StartCoroutine(FadeTVWorld(0f, duration));
     }
 
-    private IEnumerator FadeTVWorld(float targetAlpha)
+    private IEnumerator FadeTVWorld(float targetAlpha, float duration = 0.8f)
     {
         float startAlpha = tvWorldCanvasGroup.alpha;
         float elapsed = 0f;
-        float duration = 0.8f;
 
         while (elapsed < duration)
         {
@@ -158,11 +239,14 @@ public class PresentationController: MonoBehaviour
                 t
             );
 
+            storeCameraLook.SetStaticStrength(
+                Mathf.Lerp(0.3f, 0f, targetAlpha == 1f ? t : 1f - t)
+            );
+
             yield return null;
         }
 
         tvWorldCanvasGroup.alpha = targetAlpha;
         fadeCoroutine = null;
     }
-    
 }
