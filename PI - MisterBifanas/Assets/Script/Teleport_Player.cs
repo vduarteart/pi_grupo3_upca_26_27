@@ -2,6 +2,35 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using TVStore;
+
+public class Teleport_Player : MonoBehaviour
+{
+    public GameObject Player;
+    public GameObject OutputPlace;
+
+    void OnTriggerEnter(Collider other)
+    {
+        OutputSocket output = OutputPlace.GetComponent<OutputSocket>();
+        
+        if (other.CompareTag("Player"))
+        {
+            if (output.ConnectedInput != null)
+            {
+                other.GetComponent<CharacterController>().enabled = false;
+                Player.transform.position = output.ConnectedInput.transform.position + new Vector3(3f, 0f, 0f);
+                other.GetComponent<CharacterController>().enabled = true;
+                Debug.Log("Entered TP");
+            }
+        }
+    }
+}
+
+/*
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
 public class Teleport_Player : MonoBehaviour
 {
@@ -31,4 +60,5 @@ public class Teleport_Player : MonoBehaviour
             Debug.Log("Entered TP");
         }
     }
-}
+}*/
+
