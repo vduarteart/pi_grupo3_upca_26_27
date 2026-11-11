@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/2D_Test/test_tutorial.unity
+    path: Assets/Scenes/Test/test_tutorial.unity
     guid: b05e5fb6947434ebda3aec8c6ebc4d35
   - enabled: 1
-    path: Assets/Scenes/2D_Test/TV_01.unity
+    path: Assets/Scenes/TV1/TV_01.unity
     guid: a8421faf8c04548f9b7e39d0a623527f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
