@@ -18,14 +18,10 @@ public class StoreCameraLook: MonoBehaviour
 
     [Header("Cameras")]
     [SerializeField] private CinemachineCamera storeCamera;
-    [SerializeField] private CinemachineCamera tvCamera;
 
     [Header("Presentation")]
     [SerializeField] private PresentationController presentationController;
-    [SerializeField] private MeshRenderer tvScreenRenderer;
-
-    [Header("TV Camera Target")]
-    [SerializeField] private Transform tvScreenTarget;
+    
 
     [Header("TV Entry")]
     [SerializeField] private float cameraBlendDuration = 2.2f;
@@ -75,6 +71,8 @@ public class StoreCameraLook: MonoBehaviour
     private float targetImageVisibility = 0f;
 
     private Vector3 tvCameraTargetStartPosition;
+    
+    private TVController activeTV;
 
     private void Awake()
     {
@@ -84,14 +82,7 @@ public class StoreCameraLook: MonoBehaviour
         {
             cursorCanvas = cursorDot.parent as RectTransform;
         }
-
-        if (tvScreenRenderer != null)
-        {
-            tvScreenMaterial = tvScreenRenderer.materials[0];
-
-            tvScreenMaterial.SetFloat("_StaticStrength", currentStaticStrength);
-            tvScreenMaterial.SetFloat("_ImageVisibility", 0f);
-        }
+        
     }
 
     private void Update()
@@ -184,44 +175,32 @@ public class StoreCameraLook: MonoBehaviour
 
     private void DetectObjectUnderCursor()
     {
-        if (isInsideTV || isTransitioning)
-            return;
-
-        if (mainCamera == null || Mouse.current == null)
-            return;
+        if (isInsideTV || isTransitioning) return;
+        if (mainCamera == null || Mouse.current == null) return;
 
         Vector2 mousePosition = Mouse.current.position.ReadValue();
-
         Ray ray = mainCamera.ScreenPointToRay(mousePosition);
 
         GameObject detectedObject = null;
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
-            if (hit.collider.transform.parent != null)
-            {
-                detectedObject = hit.collider.transform.parent.gameObject;
-            }
-            else
-            {
-                detectedObject = hit.collider.gameObject;
-            }
+            TVController tvController =
+                hit.collider.GetComponentInParent<TVController>();
+
+            if (tvController != null)
+                detectedObject = tvController.gameObject;
         }
 
-        if (detectedObject == hoveredObject)
-            return;
+        if (detectedObject == hoveredObject) return;
 
         if (hoveredObject != null)
-        {
             SetHighlight(hoveredObject, false);
-        }
 
         hoveredObject = detectedObject;
 
         if (hoveredObject != null)
-        {
             SetHighlight(hoveredObject, true);
-        }
     }
 
     private void SetHighlight(GameObject target, bool active)
@@ -311,20 +290,15 @@ public class StoreCameraLook: MonoBehaviour
 
     private void HandleMouseClick()
     {
-        if (Mouse.current == null ||
-            isTransitioning ||
-            isInsideTV)
-        {
+        if (Mouse.current == null || isTransitioning || isInsideTV)
             return;
-        }
 
-        if (Mouse.current.leftButton.wasPressedThisFrame &&
-            hoveredObject != null)
+        if (Mouse.current.leftButton.wasPressedThisFrame && hoveredObject != null)
         {
-            if (hoveredObject.name == "TV_01")
-            {
-                StartCoroutine(TransitionToTV());
-            }
+            TVController tvController = hoveredObject.GetComponent<TVController>();
+
+            if (tvController != null)
+                StartCoroutine(TransitionToTV(tvController));
         }
     }
 
@@ -336,15 +310,20 @@ public class StoreCameraLook: MonoBehaviour
         StartCoroutine(TransitionFromTV());
     }
 
-    private IEnumerator TransitionToTV()
+    private IEnumerator TransitionToTV(TVController tvController)
     {
-        isTransitioning = true;
+        activeTV = tvController;
+        tvScreenMaterial = activeTV.ScreenRenderer.materials[0];
 
+        tvScreenMaterial.SetFloat("_StaticStrength", currentStaticStrength);
+        tvScreenMaterial.SetFloat("_ImageVisibility", currentImageVisibility);
+
+        isTransitioning = true;
         targetStaticStrength = 0.3f;
 
-        yield return StartCoroutine(
-            presentationController.LoadTVScene()
-        );
+        yield return StartCoroutine(presentationController.LoadTVScene(activeTV));
+        
+        tvScreenMaterial.SetTexture("_MainTex", activeTV.RenderTexture);
 
         SetCursorVisible(false);
 
@@ -354,48 +333,33 @@ public class StoreCameraLook: MonoBehaviour
             hoveredObject = null;
         }
 
-        // Guardar a posição inicial do CameraPoint_TV01.
-        tvCameraTargetStartPosition = tvScreenTarget.position;
+        // Guardar a posição inicial da câmara selecionada.
+        tvCameraTargetStartPosition = activeTV.CameraTarget.position;
 
-        // A Cinemachine faz a aproximação principal.
+        // Transição Cinemachine.
         storeCamera.Priority = 5;
-        tvCamera.Priority = 10;
+        activeTV.TVCamera.Priority = 10;
 
         yield return new WaitForSeconds(cameraBlendDuration);
 
-        // Iniciar a apresentação do mundo 2D.
         presentationController.EnterTV();
-
         targetImageVisibility = 1f;
 
-        // Preparar o movimento final da câmara.
-        Vector3 pushStartPosition = tvScreenTarget.position;
-
-        Vector3 pushTargetPosition =
-            tvCameraTargetStartPosition +
-            tvCamera.transform.forward * tvEntryPushDistance;
+        Vector3 pushStartPosition = activeTV.CameraTarget.position;
+        Vector3 pushTargetPosition = tvCameraTargetStartPosition +
+                                     activeTV.TVCamera.transform.forward * tvEntryPushDistance;
 
         float elapsed = 0f;
-
-        // Iniciar o aparecimento da imagem em simultâneo com o movimento.
-
         bool fullscreenStarted = false;
 
         while (elapsed < tvEntryPushDuration)
         {
             elapsed += Time.deltaTime;
 
-            float t = Mathf.SmoothStep(
-                0f,
-                1f,
-                elapsed / tvEntryPushDuration
-            );
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / tvEntryPushDuration);
 
-            tvScreenTarget.position = Vector3.Lerp(
-                pushStartPosition,
-                pushTargetPosition,
-                t
-            );
+            activeTV.CameraTarget.position =
+                Vector3.Lerp(pushStartPosition, pushTargetPosition, t);
 
             if (t >= 0.5f && !fullscreenStarted)
             {
@@ -406,7 +370,7 @@ public class StoreCameraLook: MonoBehaviour
             yield return null;
         }
 
-        tvScreenTarget.position = pushTargetPosition;
+        activeTV.CameraTarget.position = pushTargetPosition;
 
         isInsideTV = true;
         isTransitioning = false;
@@ -429,17 +393,17 @@ public class StoreCameraLook: MonoBehaviour
 
         // Iniciar o recuo da câmara.
         storeCamera.Priority = 10;
-        tvCamera.Priority = 5;
+        activeTV.TVCamera.Priority = 5;
 
         yield return new WaitForSeconds(cameraBlendDuration);
 
-        tvScreenTarget.position = tvCameraTargetStartPosition;
+        activeTV.CameraTarget.position = tvCameraTargetStartPosition;
 
         isInsideTV = false;
 
-        yield return StartCoroutine(
-            presentationController.UnloadTVScene()
-        );
+        yield return StartCoroutine(presentationController.UnloadTVScene(activeTV));
+
+        tvScreenMaterial = null;
 
         isTransitioning = false;
 

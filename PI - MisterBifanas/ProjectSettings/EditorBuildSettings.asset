@@ -8,11 +8,17 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test/test_tutorial.unity
     guid: b05e5fb6947434ebda3aec8c6ebc4d35
   - enabled: 1
+    path: Assets/Scenes/Main_Scene/Store.unity
+    guid: 9a783f3ec194c421784c6e0162e60a1c
+  - enabled: 1
     path: Assets/Scenes/TV1/TV_01.unity
     guid: a8421faf8c04548f9b7e39d0a623527f
+  - enabled: 1
+    path: Assets/Scenes/TV3/TV_03.unity
+    guid: 19b04111563144719be1b631f2742632
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

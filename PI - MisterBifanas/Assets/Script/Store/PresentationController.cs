@@ -8,8 +8,8 @@ public class PresentationController: MonoBehaviour
     [Header("Screen")]
     [SerializeField] private AspectRatioFitter screenFrame;
     [SerializeField] private CanvasGroup tvWorldCanvasGroup;
-    [SerializeField] private RenderTexture tvRenderTexture;
     [SerializeField] private StoreCameraLook storeCameraLook;
+    [SerializeField] private RawImage tvWorldImage;
 
     [Header("Side Bars")]
     [SerializeField] private RectTransform leftBar;
@@ -19,7 +19,7 @@ public class PresentationController: MonoBehaviour
 
     [Header("Aspect Ratios")]
     [SerializeField] private float storeAspectRatio = 1f;
-    [SerializeField] private float tvAspectRatio = 1.63664f;
+    private float tvAspectRatio = 1.63664f;
 
     [Header("Transition")]
     [SerializeField] private float transitionDuration = 1.2f;
@@ -37,8 +37,6 @@ public class PresentationController: MonoBehaviour
         tvWorldCanvasGroup.alpha = 0f;
 
         SetPresentation(0f);
-
-        tvRenderTexture.Create();
 
         Camera[] allCameras = Resources.FindObjectsOfTypeAll<Camera>();
 
@@ -62,26 +60,25 @@ public class PresentationController: MonoBehaviour
         Debug.Log("Cena ativa: " + SceneManager.GetActiveScene().name);
     }
 
-    public IEnumerator LoadTVScene()
+    public IEnumerator LoadTVScene(TVController tvController)
     {
-        if (isLoadingTVScene)
-            yield break;
+        if (isLoadingTVScene) yield break;
 
-        Scene tvScene = SceneManager.GetSceneByName("TV_01");
+        string sceneName = tvController.SceneName;
+
+        Scene tvScene = SceneManager.GetSceneByName(sceneName);
 
         if (!tvScene.isLoaded)
         {
             isLoadingTVScene = true;
 
             AsyncOperation operation = SceneManager.LoadSceneAsync(
-                "TV_01",
+                sceneName,
                 LoadSceneMode.Additive
             );
 
             while (!operation.isDone)
-            {
                 yield return null;
-            }
 
             isLoadingTVScene = false;
         }
@@ -90,26 +87,35 @@ public class PresentationController: MonoBehaviour
 
         yield return null;
 
-        if (tvRenderTexture != null && !tvRenderTexture.IsCreated())
-        {
-            tvRenderTexture.Create();
-        }
+        RenderTexture renderTexture = tvController.RenderTexture;
+        
+        if (renderTexture != null && !renderTexture.IsCreated())
+            renderTexture.Create();
+        
+        tvWorldImage.texture = renderTexture;
+        
+        tvWorldImage.rectTransform.GetComponent<AspectRatioFitter>().aspectRatio =
+            (float)renderTexture.width / renderTexture.height;
+        
+        tvAspectRatio = (float)renderTexture.width / renderTexture.height;
     }
 
-    public IEnumerator UnloadTVScene()
+    public IEnumerator UnloadTVScene(TVController tvController)
     {
-        Scene tvScene = SceneManager.GetSceneByName("TV_01");
+        string sceneName = tvController.SceneName;
+
+        Scene tvScene = SceneManager.GetSceneByName(sceneName);
 
         if (tvScene.isLoaded)
         {
-            AsyncOperation operation = SceneManager.UnloadSceneAsync("TV_01");
+            AsyncOperation operation = SceneManager.UnloadSceneAsync(sceneName);
 
             while (operation != null && !operation.isDone)
-            {
                 yield return null;
-            }
         }
-
+        
+        tvWorldImage.texture = null;
+        
         isTVSceneLoaded = false;
     }
 
