@@ -15,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Interactable
-  - 
+  - Ground
   - 
   - 
   - 
@@ -55,6 +55,9 @@ TagManager:
     locked: 0
   - name: Gameplay
     uniqueID: 1577495335
+    locked: 0
+  - name: Player
+    uniqueID: 2325641341
     locked: 0
   m_RenderingLayers:
   - Default
