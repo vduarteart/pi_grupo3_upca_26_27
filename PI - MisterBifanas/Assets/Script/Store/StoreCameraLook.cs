@@ -73,6 +73,8 @@ public class StoreCameraLook: MonoBehaviour
     private Vector3 tvCameraTargetStartPosition;
     
     private TVController activeTV;
+    
+    private PlayerMovement activePlayer;
 
     private void Awake()
     {
@@ -323,6 +325,14 @@ public class StoreCameraLook: MonoBehaviour
 
         yield return StartCoroutine(presentationController.LoadTVScene(activeTV));
         
+        activePlayer = FindFirstObjectByType<PlayerMovement>();
+        
+        if (activePlayer != null &&
+            PlayerPositionMemory.TryGetPosition(activeTV.SceneName, out Vector3 savedPosition))
+        {
+            activePlayer.transform.position = savedPosition;
+        }
+        
         tvScreenMaterial.SetTexture("_MainTex", activeTV.RenderTexture);
 
         SetCursorVisible(false);
@@ -396,6 +406,14 @@ public class StoreCameraLook: MonoBehaviour
         activeTV.TVCamera.Priority = 5;
 
         yield return new WaitForSeconds(cameraBlendDuration);
+        
+        if (activePlayer != null)
+        {
+            PlayerPositionMemory.SavePosition(
+                activeTV.SceneName,
+                activePlayer.transform.position
+            );
+        }
 
         activeTV.CameraTarget.position = tvCameraTargetStartPosition;
 

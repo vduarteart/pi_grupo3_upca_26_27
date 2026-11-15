@@ -19,10 +19,14 @@ public class Player_Move_2D : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private Transform GroundCheck;
     [SerializeField] private LayerMask GroundLayer;
+    
+    [SerializeField] private Animator animator;
+    
+    private bool isJumping;
 
     public InputActionReference jump;
     public InputActionReference dash;
-
+    
     // Update is called once per frame
     void Update()
     {
@@ -32,15 +36,22 @@ public class Player_Move_2D : MonoBehaviour
         }
 
         horizontal = Input.GetAxisRaw("Horizontal");
+        
+        animator.SetBool("IsRunning", horizontal != 0);
+        
+        if (jump.action.WasPressedThisFrame() && IsGrounded())
+        {
+            isJumping = true;
+            animator.SetBool("IsJumping", true);
+
+            rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, jumpPower);
+        }
+
+        animator.SetBool("IsJumping", isJumping);
 
         if (jump.action.WasPressedThisFrame() && IsGrounded())
         {
             rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, jumpPower);
-        }
-
-        if (jump.action.WasReleasedThisFrame() && rigidbody.linearVelocity.y > 0f)
-        {
-            rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, rigidbody.linearVelocity.y * 0.5f);
         }
 
         if (dash.action.WasPressedThisFrame() && dashAvailable)
@@ -63,7 +74,7 @@ public class Player_Move_2D : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(GroundCheck.position, 0.4f, GroundLayer);
+        return Physics2D.OverlapCircle(GroundCheck.position, 0.1f, GroundLayer);
     }
 
     private void Flip()
@@ -90,5 +101,11 @@ public class Player_Move_2D : MonoBehaviour
         dashing = false;
         yield return new WaitForSeconds(dashCooldown);
         dashAvailable = true;
+    }
+    
+    public void EndJumpAnimation()
+    {
+        isJumping = false;
+        animator.SetBool("IsJumping", false);
     }
 }
