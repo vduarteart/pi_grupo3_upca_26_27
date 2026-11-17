@@ -40,7 +40,6 @@ public class PlayerMovement: MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         
-        
         FlipSprite();
         
         if (dashCooldownTimer > 0f)
@@ -65,15 +64,11 @@ public class PlayerMovement: MonoBehaviour
 
     private void FixedUpdate()
     {
-        
         if (isDashing)
         {
             float dashDirection = isFacingRight ? 1f : -1f;
 
-            rb.linearVelocity = new Vector2(
-                dashDirection * dashSpeed,
-                0f
-            );
+            rb.linearVelocity = new Vector2(dashDirection * dashSpeed, 0f);
 
             dashTime -= Time.fixedDeltaTime;
 
@@ -85,10 +80,7 @@ public class PlayerMovement: MonoBehaviour
             return;
         }
         
-        rb.linearVelocity = new Vector2(
-            horizontalInput * moveSpeed,
-            rb.linearVelocity.y
-        );
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y );
 
         animator.SetFloat("xVelocity", Mathf.Abs(rb.linearVelocity.x));
 
@@ -106,8 +98,7 @@ public class PlayerMovement: MonoBehaviour
 
     private void FlipSprite()
     {
-        if ((isFacingRight && horizontalInput < 0f) ||
-            (!isFacingRight && horizontalInput > 0f))
+        if ((isFacingRight && horizontalInput < 0f) || (!isFacingRight && horizontalInput > 0f))
         {
             isFacingRight = !isFacingRight;
 
@@ -128,10 +119,7 @@ public class PlayerMovement: MonoBehaviour
 
     public void ApplyJumpForce()
     {
-        rb.linearVelocity = new Vector2(
-            rb.linearVelocity.x,
-            jumpPower
-        );
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
     }
     
     private void StartDash()
