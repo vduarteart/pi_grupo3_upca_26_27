@@ -37,20 +37,15 @@ public class Player_Move_2D : MonoBehaviour
 
         horizontal = Input.GetAxisRaw("Horizontal");
         
-        animator.SetBool("IsRunning", horizontal != 0);
+        if (horizontal != 0f) 
+        {
+            animator.SetBool("IsRunning", true);
+        }
         
         if (jump.action.WasPressedThisFrame() && IsGrounded())
         {
-            isJumping = true;
             animator.SetBool("IsJumping", true);
 
-            rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, jumpPower);
-        }
-
-        animator.SetBool("IsJumping", isJumping);
-
-        if (jump.action.WasPressedThisFrame() && IsGrounded())
-        {
             rigidbody.linearVelocity = new Vector2(rigidbody.linearVelocity.x, jumpPower);
         }
 
@@ -74,7 +69,15 @@ public class Player_Move_2D : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(GroundCheck.position, 0.1f, GroundLayer);
+        return Physics2D.OverlapCircle(GroundCheck.position, 0.2f, GroundLayer);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Ground"))
+        {
+            animator.SetBool("isJumping", false);
+        }
     }
 
     private void Flip()
@@ -85,12 +88,12 @@ public class Player_Move_2D : MonoBehaviour
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
-
         }
     }
 
     public IEnumerator DashCoroutine()
     {
+        animator.SetTrigger("Dash");
         dashAvailable = false;
         dashing = true;
         float normalGravity = rigidbody.gravityScale;
@@ -101,11 +104,5 @@ public class Player_Move_2D : MonoBehaviour
         dashing = false;
         yield return new WaitForSeconds(dashCooldown);
         dashAvailable = true;
-    }
-    
-    public void EndJumpAnimation()
-    {
-        isJumping = false;
-        animator.SetBool("IsJumping", false);
     }
 }

@@ -47,7 +47,7 @@ public class PlayerMovement: MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
         }
         
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && isGrounded && dashCooldownTimer <= 0f)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && dashCooldownTimer <= 0f)
         {
             StartDash();
         }
@@ -84,10 +84,7 @@ public class PlayerMovement: MonoBehaviour
 
         animator.SetFloat("xVelocity", Mathf.Abs(rb.linearVelocity.x));
 
-        animator.SetFloat(
-            "yVelocity",
-            isGrounded? -1f: rb.linearVelocity.y
-        );
+        animator.SetFloat("yVelocity", isGrounded? -1f: rb.linearVelocity.y);
         
         if (animator.GetBool("isJumping") && isGrounded == false && rb.linearVelocity.y == 0f)
         {
