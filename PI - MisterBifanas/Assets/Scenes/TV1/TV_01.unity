@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 41057778}
   - component: {fileID: 41057779}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EntryLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 100661643}
   - component: {fileID: 100661644}
   - component: {fileID: 100661645}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_12
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 163971379}
   - component: {fileID: 163971380}
   - component: {fileID: 163971382}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_2
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -753,7 +753,7 @@ GameObject:
   - component: {fileID: 449826371}
   - component: {fileID: 449826372}
   - component: {fileID: 449826373}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_13
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -891,7 +891,7 @@ GameObject:
   m_Component:
   - component: {fileID: 462357613}
   - component: {fileID: 462357614}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1063,7 +1063,7 @@ GameObject:
   - component: {fileID: 762679280}
   - component: {fileID: 762679281}
   - component: {fileID: 762679282}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_4
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1293,7 +1293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 780957688}
   - component: {fileID: 780957689}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1386,7 +1386,7 @@ GameObject:
   - component: {fileID: 807174868}
   - component: {fileID: 807174869}
   - component: {fileID: 807174870}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_10
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1525,7 +1525,7 @@ GameObject:
   - component: {fileID: 839399956}
   - component: {fileID: 839399957}
   - component: {fileID: 839399958}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_1
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1663,7 +1663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 864272715}
   - component: {fileID: 864272716}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1755,7 +1755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 955330346}
   - component: {fileID: 955330347}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_15
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1848,7 +1848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1090655643}
   - component: {fileID: 1090655644}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ExitLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1941,7 +1941,7 @@ GameObject:
   - component: {fileID: 1235555115}
   - component: {fileID: 1235555116}
   - component: {fileID: 1235555117}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_11
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -2171,7 +2171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1330711888}
   - component: {fileID: 1330711889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2263,7 +2263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1422255949}
   - component: {fileID: 1422255950}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2355,7 +2355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1541281472}
   - component: {fileID: 1541281473}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_14
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -2541,7 +2541,7 @@ GameObject:
   - component: {fileID: 1611366359}
   - component: {fileID: 1611366360}
   - component: {fileID: 1611366361}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_5
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -2817,7 +2817,7 @@ GameObject:
   - component: {fileID: 1779025020}
   - component: {fileID: 1779025021}
   - component: {fileID: 1779025022}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gameplay_3
   m_TagString: Ground
   m_Icon: {fileID: 0}

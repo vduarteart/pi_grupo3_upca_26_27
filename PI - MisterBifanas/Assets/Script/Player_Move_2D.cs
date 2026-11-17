@@ -19,14 +19,21 @@ public class Player_Move_2D : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private Transform GroundCheck;
     [SerializeField] private LayerMask GroundLayer;
-    
+
     [SerializeField] private Animator animator;
     
     private bool isJumping;
 
     public InputActionReference jump;
     public InputActionReference dash;
-    
+
+    void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        GroundLayer = LayerMask.GetMask("Ground");
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -36,12 +43,12 @@ public class Player_Move_2D : MonoBehaviour
         }
 
         horizontal = Input.GetAxisRaw("Horizontal");
-        
-        if (horizontal != 0f) 
+
+        if (IsGrounded())
         {
-            animator.SetBool("IsRunning", true);
+            animator.SetFloat("xVelocity", Mathf.Abs(rigidbody.linearVelocity.x));
         }
-        
+
         if (jump.action.WasPressedThisFrame() && IsGrounded())
         {
             animator.SetBool("IsJumping", true);

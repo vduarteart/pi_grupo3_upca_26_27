@@ -47,7 +47,7 @@ public class PlayerMovement: MonoBehaviour
             dashCooldownTimer -= Time.deltaTime;
         }
         
-        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && dashCooldownTimer <= 0f)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && isGrounded && dashCooldownTimer <= 0f)
         {
             StartDash();
         }

@@ -308,7 +308,7 @@ Transform:
   m_GameObject: {fileID: 21746152}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 26.847, y: 3.961, z: 8.265}
+  m_LocalPosition: {x: 34.577, y: 7.075, z: 7.332}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3467,7 +3467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CablePlugController
   mainCamera: {fileID: 2040054294}
   cableStart: {fileID: 1476810271}
-  maxCableLength: 3
+  maxCableLength: 20
   returnSpeed: 5
   magnetSpeed: 35
 --- !u!54 &2117895662

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 212356851864321282}
   - component: {fileID: 2841529765344542389}
   - component: {fileID: 3163499032148455368}
+  - component: {fileID: 2767886478017952957}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -222,3 +223,32 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.7717576, y: 3.9412093}
   m_EdgeRadius: 0
+--- !u!114 &2767886478017952957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8894476850258956384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd159d2b96d0a74aa152859d8f946d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player_Move_2D
+  horizontal: 0
+  speed: 4
+  jumpPower: 8
+  isFacingRight: 1
+  dashAvailable: 1
+  dashing: 0
+  dashPower: 24
+  dashTime: 0.2
+  dashCooldown: 0.5
+  rigidbody: {fileID: 2841529765344542389}
+  GroundCheck: {fileID: 4470589155157993580}
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  animator: {fileID: 212356851864321282}
+  jump: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  dash: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
