@@ -1,6 +1,7 @@
+
 using UnityEngine;
 
-public class CablePlugController: MonoBehaviour
+public class CablePlugController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Camera mainCamera;
@@ -9,12 +10,13 @@ public class CablePlugController: MonoBehaviour
     [Header("Cable Settings")]
     [SerializeField] private float maxCableLength = 3f;
     [SerializeField] private float returnSpeed = 5f;
-    
     [SerializeField] private float magnetSpeed = 12f;
 
     private bool isDragging;
     private bool isReturning;
     private bool isConnected;
+
+    public bool IsConnected => isConnected;
 
     private Plane dragPlane;
     private Vector3 dragOffset;
@@ -23,6 +25,8 @@ public class CablePlugController: MonoBehaviour
     private Quaternion initialRotation;
 
     private Transform nearbyPlugPosition;
+    private InputSocketController nearbySocketController;
+    private InputSocketController connectedSocket;
 
     private void Start()
     {
@@ -35,7 +39,6 @@ public class CablePlugController: MonoBehaviour
 
     private void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
             TryStartDrag();
 
@@ -45,11 +48,10 @@ public class CablePlugController: MonoBehaviour
 
             if (Input.GetMouseButtonUp(0))
             {
-                Debug.Log("Larguei a ficha. Tomada detetada: " + (nearbyPlugPosition != null));
-                
                 isDragging = false;
 
-                if (nearbyPlugPosition != null)
+                if (nearbyPlugPosition != null &&
+                    nearbySocketController != null)
                 {
                     transform.SetPositionAndRotation(
                         nearbyPlugPosition.position,
@@ -58,6 +60,8 @@ public class CablePlugController: MonoBehaviour
                     );
 
                     isConnected = true;
+                    connectedSocket = nearbySocketController;
+                    connectedSocket.RegisterConnection(this);
                 }
                 else
                 {
@@ -95,7 +99,6 @@ public class CablePlugController: MonoBehaviour
     private void TryStartDrag()
     {
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
         RaycastHit[] hits = Physics.RaycastAll(ray);
 
         foreach (RaycastHit hit in hits)
@@ -106,8 +109,14 @@ public class CablePlugController: MonoBehaviour
             if (hit.collider.transform.IsChildOf(transform) ||
                 hit.collider.transform == transform)
             {
-                isDragging = true;
+                if (connectedSocket != null)
+                {
+                    connectedSocket.RemoveConnection(this);
+                    connectedSocket = null;
+                }
+
                 isConnected = false;
+                isDragging = true;
 
                 dragPlane = new Plane(
                     -mainCamera.transform.forward,
@@ -129,7 +138,6 @@ public class CablePlugController: MonoBehaviour
         {
             Vector3 targetPosition = ray.GetPoint(distance) + dragOffset;
 
-            // Atração magnética para a tomada
             if (nearbyPlugPosition != null)
             {
                 targetPosition = Vector3.MoveTowards(
@@ -139,7 +147,6 @@ public class CablePlugController: MonoBehaviour
                 );
             }
 
-            // Limite do comprimento do cabo
             Vector3 direction = targetPosition - cableStart.position;
 
             if (direction.magnitude > maxCableLength)
@@ -152,14 +159,22 @@ public class CablePlugController: MonoBehaviour
         }
     }
 
-    public void SetNearbySocket(Transform plugPosition)
+    public void SetNearbySocket(
+        Transform plugPosition,
+        InputSocketController socketController)
     {
         nearbyPlugPosition = plugPosition;
+        nearbySocketController = socketController;
     }
 
-    public void ClearNearbySocket(Transform plugPosition)
+    public void ClearNearbySocket(
+        Transform plugPosition,
+        InputSocketController socketController)
     {
         if (nearbyPlugPosition == plugPosition)
+        {
             nearbyPlugPosition = null;
+            nearbySocketController = null;
+        }
     }
 }

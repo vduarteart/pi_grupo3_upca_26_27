@@ -308,7 +308,7 @@ Transform:
   m_GameObject: {fileID: 21746152}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 34.577, y: 7.075, z: 7.332}
+  m_LocalPosition: {x: 26.849, y: 3.979, z: 8.289}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -412,6 +412,10 @@ MonoBehaviour:
   cameraTarget: {fileID: 1082528012}
   screenRenderer: {fileID: 1314937244}
   renderTexture: {fileID: 8400000, guid: 988f02661ef95407b8e435963fee6d4e, type: 2}
+  worldScreen: {fileID: 0}
+  isUnlocked: 1
+  unlockAfterLevel1: 0
+  inputSocket: {fileID: 0}
 --- !u!1 &147321854
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +818,7 @@ Transform:
   m_Children:
   - {fileID: 1587791835}
   - {fileID: 667717114}
+  - {fileID: 1056270017}
   - {fileID: 2040054291}
   - {fileID: 932279194}
   m_Father: {fileID: 0}
@@ -1613,6 +1618,95 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!1 &1056270016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1056270017}
+  - component: {fileID: 1056270019}
+  - component: {fileID: 1056270018}
+  m_Layer: 0
+  m_Name: CM_TV02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1056270017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056270016}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29.27, y: 4, z: 1.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 528238243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1056270018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056270016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36d1163fa822e8b418a0a603ec078d5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineHardLockToTarget
+  Damping: 0
+--- !u!114 &1056270019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056270016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
+  Priority:
+    Enabled: 1
+    m_Value: 5
+  OutputChannel: 1
+  StandbyUpdate: 2
+  m_StreamingVersion: 20241001
+  m_LegacyPriority: 0
+  Target:
+    TrackingTarget: {fileID: 1776540810}
+    LookAtTarget: {fileID: 0}
+    CustomLookAtTarget: 0
+  Lens:
+    FieldOfView: 45
+    OrthographicSize: 5
+    NearClipPlane: 0.1
+    FarClipPlane: 1000
+    Dutch: 0
+    ModeOverride: 0
+    PhysicalProperties:
+      GateFit: 2
+      SensorSize: {x: 21.946, y: 16.002}
+      LensShift: {x: 0, y: 0}
+      FocusDistance: 10
+      Iso: 200
+      ShutterSpeed: 0.005
+      Aperture: 16
+      BladeCount: 5
+      Curvature: {x: 2, y: 11}
+      BarrelClipping: 0.25
+      Anamorphism: 0
+  BlendHint: 0
 --- !u!1 &1074317169
 GameObject:
   m_ObjectHideFlags: 0
@@ -2110,6 +2204,10 @@ MonoBehaviour:
   cameraTarget: {fileID: 782467237}
   screenRenderer: {fileID: 2102203212}
   renderTexture: {fileID: 8400000, guid: 1c9497c7f300c472fb5f1cc7e071840b, type: 2}
+  worldScreen: {fileID: 0}
+  isUnlocked: 0
+  unlockAfterLevel1: 0
+  inputSocket: {fileID: 0}
 --- !u!1 &1422304150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,6 +2547,7 @@ Transform:
   m_Children:
   - {fileID: 1426959480}
   - {fileID: 1082528012}
+  - {fileID: 1776540810}
   - {fileID: 782467237}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2841,6 +2940,37 @@ Transform:
   - {fileID: 1455399704247799578}
   m_Father: {fileID: 96679875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1776540809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1776540810}
+  m_Layer: 0
+  m_Name: CameraPoint_TV02
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1776540810
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776540809}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29.27, y: 4, z: 1.81}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1509143858}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1861075843
 GameObject:
   m_ObjectHideFlags: 0
@@ -2859,7 +2989,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1861075844
 Transform:
   m_ObjectHideFlags: 0
@@ -2922,7 +3052,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 0d3e58628de1d44808467654127d3cf5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3258,6 +3388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2065372787}
+  - component: {fileID: 2065372788}
   m_Layer: 0
   m_Name: TV_02
   m_TagString: Untagged
@@ -3283,6 +3414,27 @@ Transform:
   - {fileID: 1074317170}
   m_Father: {fileID: 1097946736}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2065372788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065372786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62f12d2c9338d422dbe2a81c62169fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TVController
+  sceneName: TV_02
+  tvCamera: {fileID: 1056270019}
+  cameraTarget: {fileID: 1776540810}
+  screenRenderer: {fileID: 1861075846}
+  renderTexture: {fileID: 8400000, guid: 9dbddf83bdc374c32b9810f95e385650, type: 2}
+  worldScreen: {fileID: 1861075843}
+  isUnlocked: 0
+  unlockAfterLevel1: 1
+  inputSocket: {fileID: 21746155}
 --- !u!1 &2102203209
 GameObject:
   m_ObjectHideFlags: 0
@@ -9264,6 +9416,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -406809434637049310, guid: 535a28da2ae49407bbfe3f5d44324996, type: 3}
+  - {fileID: 2100000, guid: 54ef7f2127094434fb6e8a6ff0a6b6ce, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

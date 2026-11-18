@@ -190,7 +190,7 @@ public class StoreCameraLook: MonoBehaviour
             TVController tvController =
                 hit.collider.GetComponentInParent<TVController>();
 
-            if (tvController != null)
+            if (tvController != null && tvController.CanEnter)
                 detectedObject = tvController.gameObject;
         }
 
@@ -299,7 +299,7 @@ public class StoreCameraLook: MonoBehaviour
         {
             TVController tvController = hoveredObject.GetComponent<TVController>();
 
-            if (tvController != null)
+            if (tvController != null && tvController.CanEnter)
                 StartCoroutine(TransitionToTV(tvController));
         }
     }
