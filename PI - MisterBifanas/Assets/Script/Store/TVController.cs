@@ -19,7 +19,8 @@ public class TVController : MonoBehaviour
     [Header("Unlock")]
     [SerializeField] private bool isUnlocked = false;
     [SerializeField] private bool unlockAfterLevel1 = false;
-    
+    [SerializeField] private bool unlockAfterLevel2 = false;
+
     [Header("Connection")]
     [SerializeField] private InputSocketController inputSocket;
 
@@ -45,6 +46,13 @@ public class TVController : MonoBehaviour
         if (!isUnlocked &&
             unlockAfterLevel1 &&
             LevelProgression.Level1Completed)
+        {
+            UnlockTV();
+        }
+
+        if (!isUnlocked &&
+        unlockAfterLevel1 &&
+        LevelProgression.Level2Completed)
         {
             UnlockTV();
         }
