@@ -1,11 +1,16 @@
+
 using UnityEngine;
 
-public class LevelExitTrigger : MonoBehaviour
+public class LevelExitTrigger: MonoBehaviour
 {
+    [Header("Level Configuration")]
+    [SerializeField] private int levelNumber = 1;
+
+    [Header("Exit")]
     [SerializeField] private SpriteRenderer exitLight;
 
     private bool activated = false;
-    
+
     public bool IsActivated => activated;
 
     private void Start()
@@ -20,7 +25,18 @@ public class LevelExitTrigger : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             activated = true;
-            LevelProgression.CompleteLevel1();
+
+            switch (levelNumber)
+            {
+                case 1:
+                    LevelProgression.CompleteLevel1();
+                    break;
+
+                case 2:
+                    LevelProgression.CompleteLevel2();
+                    break;
+            }
+
             exitLight.color = new Color(0f, 1f, 0f, 130f / 255f);
         }
     }

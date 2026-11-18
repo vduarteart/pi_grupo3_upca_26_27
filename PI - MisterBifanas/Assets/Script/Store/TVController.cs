@@ -1,8 +1,7 @@
-
 using UnityEngine;
 using Unity.Cinemachine;
 
-public class TVController : MonoBehaviour
+public class TVController: MonoBehaviour
 {
     [Header("TV Configuration")]
     [SerializeField] private string sceneName;
@@ -25,8 +24,12 @@ public class TVController : MonoBehaviour
     [SerializeField] private InputSocketController inputSocket;
 
     public bool IsUnlocked => isUnlocked;
-    
-    public bool CanEnter => inputSocket == null ? IsUnlocked : IsUnlocked && inputSocket.IsConnected;
+
+    public bool IsPowered =>
+        inputSocket == null ? isUnlocked :
+            isUnlocked && inputSocket.IsConnected;
+
+    public bool CanEnter => IsPowered;
 
     public string SceneName => sceneName;
     public CinemachineCamera TVCamera => tvCamera;
@@ -34,13 +37,11 @@ public class TVController : MonoBehaviour
     public MeshRenderer ScreenRenderer => screenRenderer;
     public RenderTexture RenderTexture => renderTexture;
 
-    
     private void Start()
     {
-        if (worldScreen != null)
-            worldScreen.SetActive(isUnlocked);
+        UpdateScreenState();
     }
-    
+
     private void Update()
     {
         if (!isUnlocked &&
@@ -51,18 +52,25 @@ public class TVController : MonoBehaviour
         }
 
         if (!isUnlocked &&
-        unlockAfterLevel2 &&
-        LevelProgression.Level2Completed)
+            unlockAfterLevel2 &&
+            LevelProgression.Level2Completed)
         {
             UnlockTV();
+        }
+
+        UpdateScreenState();
+    }
+
+    private void UpdateScreenState()
+    {
+        if (worldScreen != null)
+        {
+            worldScreen.SetActive(IsPowered);
         }
     }
 
     public void UnlockTV()
     {
         isUnlocked = true;
-
-        if (worldScreen != null)
-            worldScreen.SetActive(true);
     }
 }
