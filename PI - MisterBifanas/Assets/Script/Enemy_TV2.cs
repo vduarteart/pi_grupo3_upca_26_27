@@ -17,5 +17,19 @@ public class Enemy_TV2 : MonoBehaviour
         {
             Shadow.transform.position = Vector3.MoveTowards(Shadow.transform.position, playerPos.transform.position, shadowSpeed * Time.deltaTime);
         }
+
+        if (Shadow.transform.position.x > playerPos.transform.position.x)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x = -0.23f;
+            transform.localScale = localScale;
+        }
+
+        if (Shadow.transform.position.x < playerPos.transform.position.x)
+        {
+            Vector3 localScale = transform.localScale;
+            localScale.x = 0.23f;
+            transform.localScale = localScale;
+        }
     }
 }
