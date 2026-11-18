@@ -51,7 +51,7 @@ public class TVController : MonoBehaviour
         }
 
         if (!isUnlocked &&
-        unlockAfterLevel1 &&
+        unlockAfterLevel2 &&
         LevelProgression.Level2Completed)
         {
             UnlockTV();
