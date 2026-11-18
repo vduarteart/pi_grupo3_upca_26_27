@@ -1022,7 +1022,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130617829}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bd159d2b96d0a74aa152859d8f946d3, type: 3}
   m_Name: 
@@ -5217,6 +5217,14 @@ PrefabInstance:
     - target: {fileID: 329745567702335785, guid: cce8343f539cf467594f0e5123caca0e, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767886478017952957, guid: cce8343f539cf467594f0e5123caca0e, type: 3}
+      propertyPath: speed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767886478017952957, guid: cce8343f539cf467594f0e5123caca0e, type: 3}
+      propertyPath: jumpPower
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6219589620279406755, guid: cce8343f539cf467594f0e5123caca0e, type: 3}
       propertyPath: m_Enabled
