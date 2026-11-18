@@ -74,7 +74,7 @@ public class StoreCameraLook: MonoBehaviour
     
     private TVController activeTV;
     
-    private PlayerMovement activePlayer;
+    private Player_Move_2D activePlayer;
 
     private void Awake()
     {
@@ -325,7 +325,7 @@ public class StoreCameraLook: MonoBehaviour
 
         yield return StartCoroutine(presentationController.LoadTVScene(activeTV));
         
-        activePlayer = FindFirstObjectByType<PlayerMovement>();
+        activePlayer = FindFirstObjectByType<Player_Move_2D>();
         
         if (activePlayer != null &&
             PlayerPositionMemory.TryGetPosition(activeTV.SceneName, out Vector3 savedPosition))
