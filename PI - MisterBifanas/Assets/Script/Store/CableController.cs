@@ -37,15 +37,12 @@ public class CableController : MonoBehaviour
         cableMesh.localScale = scale;
         SetCableActive(LevelProgression.Level1Completed);
         
-        Debug.Log("Nível concluído: " + LevelProgression.Level1Completed);
     }
     
     public void SetCableActive(bool active)
     {
         if (cableRenderer == null)
             return;
-        
-        Debug.Log("Cable Renderer atribuído: " + (cableRenderer != null));
 
         cableRenderer.material.color = active? activeColor: inactiveColor;
         

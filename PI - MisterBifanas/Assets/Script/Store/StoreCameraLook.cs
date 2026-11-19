@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using System.Collections;
 
-public class StoreCameraLook: MonoBehaviour
+public class StoreCameraLook : MonoBehaviour
 {
     [Header("Look Limits")]
     [SerializeField] private float horizontalLimit = 5f;
@@ -21,7 +21,6 @@ public class StoreCameraLook: MonoBehaviour
 
     [Header("Presentation")]
     [SerializeField] private PresentationController presentationController;
-    
 
     [Header("TV Entry")]
     [SerializeField] private float cameraBlendDuration = 2.2f;
@@ -71,10 +70,11 @@ public class StoreCameraLook: MonoBehaviour
     private float targetImageVisibility = 0f;
 
     private Vector3 tvCameraTargetStartPosition;
-    
+
     private TVController activeTV;
-    
-    private Player_Move_2D activePlayer;
+
+    // Referência atualizada para a nova classe do jogador.
+    private PlayerMovement activePlayer;
 
     private void Awake()
     {
@@ -84,7 +84,6 @@ public class StoreCameraLook: MonoBehaviour
         {
             cursorCanvas = cursorDot.parent as RectTransform;
         }
-        
     }
 
     private void Update()
@@ -324,15 +323,17 @@ public class StoreCameraLook: MonoBehaviour
         targetStaticStrength = 0.3f;
 
         yield return StartCoroutine(presentationController.LoadTVScene(activeTV));
-        
-        activePlayer = FindFirstObjectByType<Player_Move_2D>();
-        
+
+        // Procurar o jogador através da classe atualizada.
+        activePlayer = FindFirstObjectByType<PlayerMovement>();
+
+        // Recuperar a última posição guardada, caso exista.
         if (activePlayer != null &&
             PlayerPositionMemory.TryGetPosition(activeTV.SceneName, out Vector3 savedPosition))
         {
             activePlayer.transform.position = savedPosition;
         }
-        
+
         tvScreenMaterial.SetTexture("_MainTex", activeTV.RenderTexture);
 
         SetCursorVisible(false);
@@ -406,7 +407,8 @@ public class StoreCameraLook: MonoBehaviour
         activeTV.TVCamera.Priority = 5;
 
         yield return new WaitForSeconds(cameraBlendDuration);
-        
+
+        // Guardar a posição atual do jogador antes de descarregar a cena.
         if (activePlayer != null)
         {
             PlayerPositionMemory.SavePosition(

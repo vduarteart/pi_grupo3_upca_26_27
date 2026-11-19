@@ -59,6 +59,7 @@ public class TVController: MonoBehaviour
         }
 
         UpdateScreenState();
+        
     }
 
     private void UpdateScreenState()
@@ -72,5 +73,8 @@ public class TVController: MonoBehaviour
     public void UnlockTV()
     {
         isUnlocked = true;
+        UpdateScreenState();
+
+        Debug.Log("TV desbloqueada: " + gameObject.name);
     }
 }

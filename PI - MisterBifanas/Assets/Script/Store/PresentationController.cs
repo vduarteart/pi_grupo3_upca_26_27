@@ -30,41 +30,44 @@ public class PresentationController: MonoBehaviour
     private bool isTVSceneLoaded = false;
     private bool isLoadingTVScene = false;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("CENA CARREGADA: " + scene.name + " | Modo: " + mode);
+
+        if (scene.name == "Store" && mode == LoadSceneMode.Single)
+        {
+            Debug.LogError("A STORE FOI RECARREGADA EM SINGLE!");
+            Debug.LogError(System.Environment.StackTrace);
+        }
+    }
+
     private void Start()
     {
-        Debug.Log("Resolução do ecrã: " + Screen.width + " x " + Screen.height);
-
         tvWorldCanvasGroup.alpha = 0f;
-
         SetPresentation(0f);
-
-        Camera[] allCameras = Resources.FindObjectsOfTypeAll<Camera>();
-
-        foreach (Camera cam in allCameras)
-        {
-            if (cam.gameObject.scene.name == "TV_01")
-            {
-                Debug.Log("Câmara encontrada na TV_01: " + cam.name);
-                Debug.Log("Ativa: " + cam.isActiveAndEnabled);
-                Debug.Log("Target Texture: " + (cam.targetTexture != null ? cam.targetTexture.name : "NULL"));
-            }
-        }
-
-        Debug.Log("Cenas carregadas: " + SceneManager.sceneCount);
-
-        for (int i = 0; i < SceneManager.sceneCount; i++)
-        {
-            Debug.Log("Cena " + i + ": " + SceneManager.GetSceneAt(i).name);
-        }
-
-        Debug.Log("Cena ativa: " + SceneManager.GetActiveScene().name);
     }
 
     public IEnumerator LoadTVScene(TVController tvController)
     {
-        if (isLoadingTVScene) yield break;
+        if (isLoadingTVScene)
+            yield break;
 
         string sceneName = tvController.SceneName;
+
+        Debug.Log("=== INÍCIO ENTRADA TV ===");
+        Debug.Log("TV selecionada: " + sceneName);
+        Debug.Log("Cena ativa: " + SceneManager.GetActiveScene().name);
+        Debug.Log("Cenas carregadas: " + SceneManager.sceneCount);
 
         Scene tvScene = SceneManager.GetSceneByName(sceneName);
 
@@ -88,16 +91,20 @@ public class PresentationController: MonoBehaviour
         yield return null;
 
         RenderTexture renderTexture = tvController.RenderTexture;
-        
+
         if (renderTexture != null && !renderTexture.IsCreated())
             renderTexture.Create();
-        
+
         tvWorldImage.texture = renderTexture;
-        
+
         tvWorldImage.rectTransform.GetComponent<AspectRatioFitter>().aspectRatio =
             (float)renderTexture.width / renderTexture.height;
-        
+
         tvAspectRatio = (float)renderTexture.width / renderTexture.height;
+
+        Debug.Log("=== FIM CARREGAMENTO TV ===");
+        Debug.Log("Cena ativa: " + SceneManager.GetActiveScene().name);
+        Debug.Log("Cenas carregadas: " + SceneManager.sceneCount);
     }
 
     public IEnumerator UnloadTVScene(TVController tvController)
@@ -113,9 +120,9 @@ public class PresentationController: MonoBehaviour
             while (operation != null && !operation.isDone)
                 yield return null;
         }
-        
+
         tvWorldImage.texture = null;
-        
+
         isTVSceneLoaded = false;
     }
 
@@ -170,14 +177,12 @@ public class PresentationController: MonoBehaviour
 
     private void SetPresentation(float progress)
     {
-        // Alteração da proporção da apresentação
         screenFrame.aspectRatio = Mathf.Lerp(
             storeAspectRatio,
             tvAspectRatio,
             progress
         );
 
-        // Primeira fase: desaparecimento das barras laterais
         float sideProgress = 1f - Mathf.Clamp01(progress / 0.5f);
 
         leftBar.anchorMin = new Vector2(0f, 0f);
@@ -190,7 +195,6 @@ public class PresentationController: MonoBehaviour
         );
         rightBar.anchorMax = new Vector2(1f, 1f);
 
-        // Segunda fase: aparecimento das barras horizontais
         float horizontalProgress = Mathf.Clamp01(
             (progress - 0.5f) / 0.5f
         );

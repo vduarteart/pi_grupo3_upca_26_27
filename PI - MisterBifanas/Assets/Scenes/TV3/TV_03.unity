@@ -881,7 +881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &113816165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1144,16 +1144,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8894476850258956384, guid: cce8343f539cf467594f0e5123caca0e, type: 3}
   m_PrefabInstance: {fileID: 983723595}
   m_PrefabAsset: {fileID: 0}
---- !u!50 &130617833 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 2841529765344542389, guid: cce8343f539cf467594f0e5123caca0e, type: 3}
-  m_PrefabInstance: {fileID: 983723595}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &130617834 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 212356851864321282, guid: cce8343f539cf467594f0e5123caca0e, type: 3}
-  m_PrefabInstance: {fileID: 983723595}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &130617837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1175,12 +1165,12 @@ MonoBehaviour:
   dashPower: 24
   dashTime: 0.2
   dashCooldown: 0.5
-  rigidbody: {fileID: 130617833}
+  rigidbody: {fileID: 0}
   GroundCheck: {fileID: 1807831348}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 128
-  animator: {fileID: 130617834}
+  animator: {fileID: 0}
   jump: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   dash: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &143343962
@@ -9813,7 +9803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1647556149
 MonoBehaviour:
   m_ObjectHideFlags: 0

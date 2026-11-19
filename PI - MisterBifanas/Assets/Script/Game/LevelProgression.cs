@@ -13,6 +13,7 @@ public class LevelProgression : MonoBehaviour
     public static void CompleteLevel2()
     {
         Level2Completed = true;
+        Debug.Log("LEVEL 2 COMPLETED: " + Level2Completed);
     }
 
     private void Awake()
