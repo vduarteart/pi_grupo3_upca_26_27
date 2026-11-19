@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 0
+    path: Assets/Scenes/TV2/TV_02_Wrong.unity
+    guid: 70a274cb7375d4419824ae547fc4b176
+  - enabled: 0
     path: Assets/Scenes/Test/test_tutorial.unity
     guid: b05e5fb6947434ebda3aec8c6ebc4d35
   - enabled: 1
@@ -19,7 +22,7 @@ EditorBuildSettings:
     guid: a8421faf8c04548f9b7e39d0a623527f
   - enabled: 1
     path: Assets/Scenes/TV2/TV_02.unity
-    guid: 70a274cb7375d4419824ae547fc4b176
+    guid: 0a011e2b20598fd4cba3e88a2aefc354
   - enabled: 1
     path: Assets/Scenes/TV3/TV_03.unity
     guid: 19b04111563144719be1b631f2742632
