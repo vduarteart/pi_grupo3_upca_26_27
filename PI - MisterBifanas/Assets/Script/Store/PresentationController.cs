@@ -43,12 +43,6 @@ public class PresentationController: MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("CENA CARREGADA: " + scene.name + " | Modo: " + mode);
-
-        if (scene.name == "Store" && mode == LoadSceneMode.Single)
-        {
-            Debug.LogError("A STORE FOI RECARREGADA EM SINGLE!");
-            Debug.LogError(System.Environment.StackTrace);
-        }
     }
 
     private void Start()

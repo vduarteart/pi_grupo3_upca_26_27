@@ -10,6 +10,8 @@ TagManager:
   - Ground
   - Start
   - Quit
+  - Kill
+  - Spawner
   layers:
   - Default
   - TransparentFX

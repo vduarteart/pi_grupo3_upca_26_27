@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class Reset_Scene : MonoBehaviour
 {
+    public bool Reset = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Kill"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Reset = true;
         }
     }
 }

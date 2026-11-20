@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1302009186479276260}
   - component: {fileID: 5704070468332460814}
   - component: {fileID: 692922846111077343}
+  - component: {fileID: -4649310724846408154}
   m_Layer: 0
   m_Name: Player_V
   m_TagString: Player
@@ -32,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.88, y: 15.859, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -204,8 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f506d49d6e94da4a9efc327b0ab585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 3
-  jumpPower: 5
+  moveSpeed: 6
+  jumpPower: 8
   isFacingRight: 1
   rb: {fileID: 1713273775061112443}
   animator: {fileID: 1302009186479276260}
@@ -249,3 +250,16 @@ CapsuleCollider2D:
   m_Offset: {x: -0.00000022620199, y: -1.89752}
   m_Size: {x: 2.5320091, y: 0.25698346}
   m_Direction: 1
+--- !u!114 &-4649310724846408154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356297519078301041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b6dd462066b2441afbaabe3d02576e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reset_Scene
+  Reset: 0

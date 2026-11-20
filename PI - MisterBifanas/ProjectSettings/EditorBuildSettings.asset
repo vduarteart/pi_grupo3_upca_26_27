@@ -5,15 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 0
-    path: Assets/Scenes/TV2/TV_02_Wrong.unity
-    guid: 70a274cb7375d4419824ae547fc4b176
-  - enabled: 0
-    path: Assets/Scenes/Test/test_tutorial.unity
-    guid: b05e5fb6947434ebda3aec8c6ebc4d35
+  - enabled: 1
+    path: Assets/Scenes/Main_Menu.unity
+    guid: e469315077a06554ab8f271f2124ec00
   - enabled: 1
     path: Assets/Scenes/Main_Scene/Store.unity
     guid: 9a783f3ec194c421784c6e0162e60a1c
@@ -26,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TV3/TV_03.unity
     guid: 19b04111563144719be1b631f2742632
+  - enabled: 1
+    path: Assets/Scenes/End_Screen.unity
+    guid: c5b54473927204c4c9fdb20535bd9813
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
